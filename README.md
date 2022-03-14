@@ -4,6 +4,6 @@
 ### A movie store implementation using Spring Boot Framework
 
 
-Documentation in:
+API Documentation: 
 > /api/v1/swagger-ui/index.html
 
