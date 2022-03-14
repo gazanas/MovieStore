@@ -67,6 +67,7 @@ public class MovieService {
                 .flatMap(List::stream).collect(Collectors.toList());
         List<Director> directorList = (directors == null) ? null : directors.stream().map(this.directorRepository::findByFirstNameOrLastName)
                 .flatMap(List::stream).collect(Collectors.toList());
+
         return movieRepository.searchMovie(title, category, releasedDate, rating, actorList, directorList)
                 .stream().map(this.movieMapper::movieToOutputDto)
                 .filter((MovieDto movie) -> this.listAvailableMovies().contains(movie)).collect(Collectors.toList());

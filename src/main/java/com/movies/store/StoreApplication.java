@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @SpringBootApplication
 public class StoreApplication {
@@ -20,6 +21,19 @@ public class StoreApplication {
 		SpringApplication.run(StoreApplication.class, args);
 	}
 
+
+	/**
+	 * Initialize some data when the application is first run
+	 * (First run means the database doesn't have data in the respective tables)
+	 *
+	 * @param categoryRepository
+	 * @param movieRepository
+	 * @param informationRepository
+	 * @param actorRepository
+	 * @param directorRepository
+	 * @param copyRepository
+	 * @return
+	 */
 	@ConditionalOnProperty(
 			prefix = "command.line.runner",
 			value = "enabled",
@@ -29,48 +43,92 @@ public class StoreApplication {
 	public CommandLineRunner loadData(CategoryRepository categoryRepository,
 									  MovieRepository movieRepository,
 									  InformationRepository informationRepository,
+									  ActorRepository actorRepository,
+									  DirectorRepository directorRepository,
 									  CopyRepository copyRepository) {
 
 		return (args) -> {
 
-			Category category1 = new Category();
-			category1.setCategory("Adventure");
+			Category category1 = categoryRepository.findById(1).orElseGet(() -> {
+				Category category = new Category();
+				category.setCategory("Adventure");
+				return categoryRepository.save(category);
+			});
 
-			Category category2 = new Category();
-			category2.setCategory("Comedy");
+			Category category2 = categoryRepository.findById(2).orElseGet(() -> {
+				Category category = new Category();
+				category.setCategory("Comedy");
+				return categoryRepository.save(category);
+			});
 
-			if (categoryRepository.findAll().isEmpty()) {
-				categoryRepository.save(category1);
-				categoryRepository.save(category2);
-			}
+			Movie movie1 = movieRepository.findById(1).orElseGet(() -> {
+				Movie movie = new Movie();
+				movie.setTitle("Lord Of The Rings The Fellowship of the Ring");
+				movie.setCategory(category1);
+				return movieRepository.save(movie);
+			});
 
-			Movie movie1 = new Movie();
-			movie1.setTitle("Lord Of The Rings The Fellowship of the Ring");
-			movie1.setCategory(category1);
+			Movie movie2 = movieRepository.findById(2).orElseGet(() -> {
+				Movie movie = new Movie();
+				movie.setTitle("Pirates of the Caribbean: The curse of the Black Pearl");
+				movie.setCategory(category1);
+				return movieRepository.save(movie);
+			});
 
-			Movie movie2 = new Movie();
-			movie2.setTitle("Dracula Dead and Loving It");
-			movie2.setCategory(category2);
+			Movie movie3 = movieRepository.findById(3).orElseGet(() -> {
+				Movie movie = new Movie();
+				movie.setTitle("Dracula Dead and Loving It");
+				movie.setCategory(category2);
+				return movieRepository.save(movie);
+			});
 
-			if (movieRepository.findAll().isEmpty()) {
-				movieRepository.save(movie1);
-				movieRepository.save(movie2);
-			}
+			Information information1 = informationRepository.findByMovieId(movie1.getId()).orElseGet(() -> {
+				Information information = new Information();
+				information.setReleased(Timestamp.valueOf("2001-12-19 00:00:00"));
+				information.setRating(8.9);
+				information.setMovie(movie1);
+				return informationRepository.save(information);
+			});
 
-			Information information1 = new Information();
-			information1.setReleased(Timestamp.valueOf("2001-12-19 00:00:00"));
-			information1.setRating(8.9);
-			information1.setMovie(movie1);
+			Information information2 = informationRepository.findByMovieId(movie2.getId()).orElseGet(() -> {
+				Information information = new Information();
+				information.setReleased(Timestamp.valueOf("2003-09-12 00:00:00"));
+				information.setRating(8.1);
+				information.setMovie(movie2);
+				return informationRepository.save(information);
+			});
 
-			Information information2 = new Information();
-			information2.setReleased(Timestamp.valueOf("1995-12-22 00:00:00"));
-			information2.setRating(5.8);
-			information2.setMovie(movie2);
+			Information information3 = informationRepository.findByMovieId(movie3.getId()).orElseGet(() -> {
+				Information information = new Information();
+				information.setReleased(Timestamp.valueOf("1995-12-22 00:00:00"));
+				information.setRating(5.8);
+				information.setMovie(movie3);
+				return informationRepository.save(information);
+			});
 
-			if (informationRepository.findAll().isEmpty()) {
-				informationRepository.save(information1);
-				informationRepository.save(information2);
-			}
+			Actor actor1 = actorRepository.findById(1).orElseGet(() -> {
+				Actor actor = new Actor();
+				actor.setFirstName("Viggo");
+				actor.setLastName("Mortensen");
+				actor.setInformation(List.of(information1));
+				return actorRepository.save(actor);
+			});
+
+			Actor actor2 = actorRepository.findById(2).orElseGet(() -> {
+				Actor actor = new Actor();
+				actor.setFirstName("Orlando");
+				actor.setLastName("Bloom");
+				actor.setInformation(List.of(information1, information2));
+				return actorRepository.save(actor);
+			});
+
+			Actor actor3 = actorRepository.findById(3).orElseGet(() -> {
+				Actor actor = new Actor();
+				actor.setFirstName("Leslie");
+				actor.setLastName("Nielsen");
+				actor.setInformation(List.of(information3));
+				return actorRepository.save(actor);
+			});
 
 			Copy copy1 = new Copy();
 			copy1.setMovie(movie1);
@@ -81,10 +139,14 @@ public class StoreApplication {
 			Copy copy3 = new Copy();
 			copy3.setMovie(movie2);
 
+			Copy copy4 = new Copy();
+			copy4.setMovie(movie3);
+
 			if (copyRepository.findAll().isEmpty()) {
 				copyRepository.save(copy1);
 				copyRepository.save(copy2);
 				copyRepository.save(copy3);
+				copyRepository.save(copy4);
 			}
 		};
 	}
