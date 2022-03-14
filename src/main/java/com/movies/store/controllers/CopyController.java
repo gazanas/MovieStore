@@ -21,7 +21,7 @@ public class CopyController {
 
     private final CopyService copyService;
 
-    @ApiResponse(description = "Returns a list of copies that the user has rented", responseCode = "200",
+    @ApiResponse(description = "Returns a list of copies that the user has rented  (authenticated)", responseCode = "200",
             content = @Content(array = @ArraySchema(schema = @Schema(implementation = CopyDto.class)),
                     examples = @ExampleObject(value =
                             "[\n" +
@@ -43,7 +43,7 @@ public class CopyController {
         return this.copyService.getUsersRentedCopies();
     }
 
-    @ApiResponse(description = "If the current user has rented the requested copy then it returns it", responseCode = "200",
+    @ApiResponse(description = "If the current user has rented the requested copy then it returns it  (authenticated)", responseCode = "200",
             content = @Content(schema = @Schema(implementation = String.class),
                     examples = @ExampleObject(value = "Movie returned!")))
     @PreAuthorize("@ownershipFilter.checkIfCopyIsRentedByCurrentUser(#copyId)")

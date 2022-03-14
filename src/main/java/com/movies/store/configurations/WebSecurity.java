@@ -57,11 +57,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                         UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v1/users/register", "/api/v1/login").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1/movies/available", "/api/v1/movies/search").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/movies/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/v1/movies/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/api/v1/copies/**").authenticated()
-                .antMatchers(HttpMethod.GET, "/api/v1/charges/**").authenticated()
-                .antMatchers(HttpMethod.POST, "/api/v1/copies/movie/{movie_id}/rent").authenticated()
-                .antMatchers(HttpMethod.PUT, "/api/v1/copies/{copy_id}/return").authenticated();
+                .antMatchers(HttpMethod.PUT, "/api/v1/copies/**").authenticated()
+                .antMatchers(HttpMethod.GET, "/api/v1/charges/**").authenticated();
     }
 
     @Bean

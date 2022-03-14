@@ -84,7 +84,7 @@ public class MovieController {
         return ResponseEntity.ok().body("Movie is loading...!");
     }
 
-    @ApiResponse(description = "Searches for an available copy of the requested movie and if it finds one it rents it",
+    @ApiResponse(description = "Searches for an available copy of the requested movie and if it finds one it rents it  (authenticated)",
             responseCode = "200", content = @Content(schema = @Schema(implementation = String.class),
             examples = @ExampleObject(value = "Movie added to your library!")))
     @PostMapping(path = "/movie/{movie_id}/rent")

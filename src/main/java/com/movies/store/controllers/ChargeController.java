@@ -21,7 +21,7 @@ public class ChargeController {
 
     private final ChargeService chargeService;
 
-    @ApiResponse(description = "A list of charges for the unpaid returned movies of the current user", responseCode = "200",
+    @ApiResponse(description = "A list of charges for the unpaid returned movies of the current user (authenticated)", responseCode = "200",
             content = @Content(array = @ArraySchema(schema = @Schema(implementation = ChargeDto.class)),
                     examples = @ExampleObject(value =
                     "[\n" +
