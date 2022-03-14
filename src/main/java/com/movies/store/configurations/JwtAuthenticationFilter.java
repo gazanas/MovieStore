@@ -54,20 +54,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     /**
-     * When the authentication is unsuccessful send the correct response
-     *
-     * @param request
-     * @param response
-     * @param failed
-     * @throws IOException
-     */
-    @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
-        response.setStatus(HttpStatus.FORBIDDEN.value());
-        response.getWriter().write(failed.getLocalizedMessage());
-    }
-
-    /**
      * When authenticated successfully then create an access json web token for authorization
      * and a refresh json web token for refreshing the access json web token when it's expired
      * and send both of them as the response body.

@@ -9,9 +9,11 @@ import com.movies.store.exceptions.InvalidTokenException;
 import com.movies.store.models.User;
 import com.movies.store.repositories.UserRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -35,6 +37,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         this.userRepository = userRepository;
         this.jwtProperties = jwtProperties;
     }
+
 
     /**
      * Attempt authorization for the current user, by getting the authorization header.
@@ -101,9 +104,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
      * @return The authentication token if the user is authorized else null
      */
     private Authentication getUsernamePasswordAuthentication(String authorizationHeader) {
-        String token = authorizationHeader.replace(this.jwtProperties.getTokenPrefix(), "").trim();
-        String secret = this.jwtProperties.getSecret();
-        String username = JWT.require(Algorithm.HMAC512(secret.getBytes())).build().verify(token).getSubject();
+        String token = authorizationHeader.replace(this.jwtProperties.getTokenPrefix(), "");
+
+        String username = null;
+        if (token != null) {
+            username = JWT.require(Algorithm.HMAC512(this.jwtProperties.getSecret().getBytes()))
+                    .build().verify(token).getSubject();
+        }
 
         if (username != null) {
             User user = this.userRepository.findByUsername(username)

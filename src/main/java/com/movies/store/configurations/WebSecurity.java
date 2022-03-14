@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -51,17 +52,17 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager(), this.jwtProperties))
-                .addFilterBefore(new JwtAuthorizationFilter(this.userRepository, this.jwtProperties),
-                        UsernamePasswordAuthenticationFilter.class)
-                .authorizeRequests()
+        http.csrf().disable();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v1/users/register", "/api/v1/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/movies/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/v1/movies/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/api/v1/copies/**").authenticated()
                 .antMatchers(HttpMethod.PUT, "/api/v1/copies/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/api/v1/charges/**").authenticated();
+        http.addFilter(new JwtAuthenticationFilter(authenticationManager(), this.jwtProperties))
+                .addFilterBefore(new JwtAuthorizationFilter(this.userRepository, this.jwtProperties), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
@@ -81,7 +82,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         corsConfiguration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE"));
         corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
         corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.setExposedHeaders(Arrays.asList("Authorization"));
 
         UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();
         corsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
