@@ -21,6 +21,13 @@ public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, St
         ConstraintValidator.super.initialize(constraintAnnotation);
     }
 
+    /**
+     * Validate that the email does not already exist
+     *
+     * @param email The passed email
+     * @param constraintValidatorContext
+     * @return
+     */
     @Override
     public boolean isValid(String email, ConstraintValidatorContext constraintValidatorContext) {
         return !this.userRepository.findByEmail(email).isPresent();

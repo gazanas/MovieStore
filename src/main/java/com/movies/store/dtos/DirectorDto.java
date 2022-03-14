@@ -5,11 +5,13 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 @Data
-public class CategoryOutDto {
+public class DirectorDto {
 
     private Integer id;
 
-    private String category;
+    private String firstName;
+
+    private String lastName;
 
     private Timestamp createdAt;
 

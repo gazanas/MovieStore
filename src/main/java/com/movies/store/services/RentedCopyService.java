@@ -60,6 +60,7 @@ public class RentedCopyService {
      * this status is being done by setting the return date
      *
      * @param copyId The given movie copy to be returned
+     * @return The returned (updated returnedAt field) rented copy
      */
     public RentedCopy setReturnedStatus(Integer copyId) {
         RentedCopy rentedCopy = this.rentedCopyRepository.findByCopyIdAndReturnedAtIsNull(copyId)

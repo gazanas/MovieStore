@@ -14,6 +14,18 @@ import java.util.List;
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
+    /**
+     * Search the movies by the parameters passed. If a parameter is null then it is ignored
+     * in the query.
+     *
+     * @param title
+     * @param category
+     * @param released
+     * @param rating
+     * @param actors
+     * @param directors
+     * @return A list of the resulted movies
+     */
     @Query(value = "SELECT DISTINCT(m) FROM Movie m JOIN m.category c LEFT JOIN m.information i LEFT JOIN i.actors a " +
             "LEFT JOIN i.directors d WHERE (:title IS NULL OR (m.title LIKE %:title%)) AND " +
             "(:category IS NULL OR (c.category = :category)) AND (:released IS NULL OR (i.released = :released)) " +

@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Data
-public class InformationOutDto {
+public class InformationDto {
 
     private Integer id;
 
@@ -16,9 +16,9 @@ public class InformationOutDto {
 
     private Double rating;
 
-    private List<ActorOutDto> actors;
+    private List<ActorDto> actors;
 
-    private List<DirectorOutDto> directors;
+    private List<DirectorDto> directors;
 
     private Timestamp createdAt;
 

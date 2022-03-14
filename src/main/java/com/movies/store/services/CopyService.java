@@ -53,6 +53,7 @@ public class CopyService {
      * in the rented copies for the current user
      *
      * @param movieId The id of the requested movie
+     * @return The rented copy
      */
     public Copy rentCopy(Integer movieId) {
         List<Copy> availableCopies = this.getAllAvailableCopies();
@@ -68,6 +69,7 @@ public class CopyService {
      * Return a rented copy
      *
      * @param copyId The id of the copy to be returned
+     * @return The returned copy
      */
     public Copy returnCopy(Integer copyId) {
         return this.rentedCopyService.setReturnedStatus(copyId).getCopy();

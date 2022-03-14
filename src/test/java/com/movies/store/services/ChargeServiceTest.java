@@ -55,7 +55,7 @@ class ChargeServiceTest {
 
         mockedReturnedCopy = new RentedCopy();
         mockedReturnedCopy.setId(1);
-        mockedReturnedCopy.setRentedAt(Timestamp.from(LocalDateTime.now().minus(2, ChronoUnit.DAYS)
+        mockedReturnedCopy.setRentedAt(Timestamp.from(LocalDateTime.now().minus(6, ChronoUnit.DAYS)
                 .atZone(ZoneId.systemDefault()).toInstant()));
         mockedReturnedCopy.setReturnedAt(Timestamp.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
 
@@ -91,6 +91,6 @@ class ChargeServiceTest {
 
         // then
         verify(chargeRepository).save(isA(Charge.class));
-        assertEquals(2.0, charge.getAmount());
+        assertEquals(4.5, charge.getAmount());
     }
 }

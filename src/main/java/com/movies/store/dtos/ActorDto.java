@@ -5,7 +5,7 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 @Data
-public class ActorOutDto {
+public class ActorDto {
 
     private Integer id;
 

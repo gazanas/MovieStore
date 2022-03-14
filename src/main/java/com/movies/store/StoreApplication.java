@@ -2,10 +2,8 @@ package com.movies.store;
 
 import com.movies.store.dtos.RegisterDto;
 import com.movies.store.models.*;
-import com.movies.store.repositories.CategoryRepository;
-import com.movies.store.repositories.CopyRepository;
-import com.movies.store.repositories.InformationRepository;
-import com.movies.store.repositories.MovieRepository;
+import com.movies.store.repositories.*;
+import com.movies.store.services.RentedCopyService;
 import com.movies.store.services.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -28,39 +26,23 @@ public class StoreApplication {
 			havingValue = "true",
 			matchIfMissing = true)
 	@Bean
-	public CommandLineRunner loadData(UserService userService,
-									  CategoryRepository categoryRepository,
+	public CommandLineRunner loadData(CategoryRepository categoryRepository,
 									  MovieRepository movieRepository,
 									  InformationRepository informationRepository,
 									  CopyRepository copyRepository) {
 
 		return (args) -> {
 
-			RegisterDto registerDto1 = new RegisterDto();
-			registerDto1.setUsername("test1");
-			registerDto1.setEmail("test1@test.test");
-			registerDto1.setPassword("password123!@");
-			registerDto1.setConfirmation("password123!@");
-
-			RegisterDto registerDto2 = new RegisterDto();
-			registerDto2.setUsername("test2");
-			registerDto2.setEmail("test2@test.test");
-			registerDto2.setPassword("password123!@");
-			registerDto2.setConfirmation("password123!@");
-
-			User user1 = userService.addUser(registerDto1);
-			User user2 = userService.addUser(registerDto2);
-
 			Category category1 = new Category();
 			category1.setCategory("Adventure");
-			categoryRepository.save(category1);
 
 			Category category2 = new Category();
 			category2.setCategory("Comedy");
-			categoryRepository.save(category2);
 
-			categoryRepository.save(category1);
-			categoryRepository.save(category2);
+			if (categoryRepository.findAll().isEmpty()) {
+				categoryRepository.save(category1);
+				categoryRepository.save(category2);
+			}
 
 			Movie movie1 = new Movie();
 			movie1.setTitle("Lord Of The Rings The Fellowship of the Ring");
@@ -70,8 +52,10 @@ public class StoreApplication {
 			movie2.setTitle("Dracula Dead and Loving It");
 			movie2.setCategory(category2);
 
-			movieRepository.save(movie1);
-			movieRepository.save(movie2);
+			if (movieRepository.findAll().isEmpty()) {
+				movieRepository.save(movie1);
+				movieRepository.save(movie2);
+			}
 
 			Information information1 = new Information();
 			information1.setReleased(Timestamp.valueOf("2001-12-19 00:00:00"));
@@ -83,8 +67,10 @@ public class StoreApplication {
 			information2.setRating(5.8);
 			information2.setMovie(movie2);
 
-			informationRepository.save(information1);
-			informationRepository.save(information2);
+			if (informationRepository.findAll().isEmpty()) {
+				informationRepository.save(information1);
+				informationRepository.save(information2);
+			}
 
 			Copy copy1 = new Copy();
 			copy1.setMovie(movie1);
@@ -95,9 +81,11 @@ public class StoreApplication {
 			Copy copy3 = new Copy();
 			copy3.setMovie(movie2);
 
-			copyRepository.save(copy1);
-			copyRepository.save(copy2);
-			copyRepository.save(copy3);
+			if (copyRepository.findAll().isEmpty()) {
+				copyRepository.save(copy1);
+				copyRepository.save(copy2);
+				copyRepository.save(copy3);
+			}
 		};
 	}
 }

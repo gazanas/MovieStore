@@ -29,7 +29,7 @@ public class Movie {
     @OneToOne(mappedBy = "movie", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Information information;
 
-    @OneToMany(mappedBy = "movie")
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.REMOVE)
     private List<Copy> copies;
 
     @CreationTimestamp

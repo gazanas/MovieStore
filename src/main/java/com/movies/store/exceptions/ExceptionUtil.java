@@ -13,7 +13,7 @@ import java.util.Map;
 public class ExceptionUtil {
 
     /**
-     * Assemble the exception http response
+     * Assemble the exception http response body
      * It will contain the reason, the http status and the timestamp when it occurred
      *
      * @param status The http status of the exception
@@ -29,6 +29,14 @@ public class ExceptionUtil {
         return body;
     }
 
+    /**
+     * Assemble the exception http response when there are multiple error messages
+     * It will contain the reason, the http status and the timestamp when it occurred
+     *
+     * @param status The http status of the exception
+     * @param messages A list of causes of the exception
+     * @return The response entity to be sent to the user
+     */
     public Map<String, String> assembleResponseBody(HttpStatus status, List<String> messages) {
         Map<String, String> body = new HashMap<>();
         body.put("status", status.toString());

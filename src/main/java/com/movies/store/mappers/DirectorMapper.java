@@ -1,6 +1,6 @@
 package com.movies.store.mappers;
 
-import com.movies.store.dtos.DirectorOutDto;
+import com.movies.store.dtos.DirectorDto;
 import com.movies.store.models.Director;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -13,5 +13,5 @@ public interface DirectorMapper {
     @Mapping(source = "lastName", target = "lastName")
     @Mapping(source = "createdAt", target = "createdAt")
     @Mapping(source = "updatedAt", target = "updatedAt")
-    DirectorOutDto directorToOutputDto(Director director);
+    DirectorDto directorToOutputDto(Director director);
 }

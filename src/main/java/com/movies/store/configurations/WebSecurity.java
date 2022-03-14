@@ -31,13 +31,20 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     private final JwtProperties jwtProperties;
 
+    /**
+     * Define the way the user is going to be retrieved from the database
+     * for authentication and how the password will be hashed
+     *
+     * @param auth
+     * @throws Exception
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(movieUserService).passwordEncoder(encoder());
     }
 
     /**
-     * Add request filter and add security on the endpoints
+     * Add request filters and add security on the endpoints
      *
      * @param http
      * @throws Exception
@@ -72,7 +79,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         final CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
         corsConfiguration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE"));
-        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:8080"));
+        corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.setExposedHeaders(Arrays.asList("Authorization"));
 

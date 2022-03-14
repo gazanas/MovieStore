@@ -1,6 +1,7 @@
 package com.movies.store.services;
 
 import com.movies.store.dtos.MovieDto;
+import com.movies.store.exceptions.NoAvailableCopyException;
 import com.movies.store.mappers.MovieMapper;
 import com.movies.store.models.Actor;
 import com.movies.store.models.Copy;
@@ -23,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(properties = {
@@ -153,5 +156,30 @@ class MovieServiceTest {
 
         // then
         assertEquals(0, movies.size());
+    }
+
+    @Test
+    public void testRentMovieWhenItIsAvailable() {
+        // given
+        Integer movieId = 1;
+        when(copyService.rentCopy(movieId)).thenReturn(mockedAvailableCopies.get(0));
+
+        // when
+        Movie movie = movieService.rentMovie(movieId);
+
+        // then
+        verify(copyService).rentCopy(movieId);
+        assertEquals(1, movie.getId());
+    }
+
+    @Test
+    public void testRentMovieWhenItIsNotAvailable() {
+        // given
+        Integer movieId = 5;
+        when(copyService.rentCopy(5)).thenThrow(NoAvailableCopyException.class);
+
+        // when
+        // then
+        assertThrows(NoAvailableCopyException.class, () -> movieService.rentMovie(movieId));
     }
 }

@@ -23,6 +23,13 @@ public class UniqueUsernameValidator implements ConstraintValidator<UniqueUserna
         ConstraintValidator.super.initialize(constraintAnnotation);
     }
 
+    /**
+     * Validate that the username does not already exist
+     *
+     * @param username The passed username
+     * @param constraintValidatorContext
+     * @return
+     */
     @Override
     public boolean isValid(String username, ConstraintValidatorContext constraintValidatorContext) {
         return !this.userRepository.findByUsername(username).isPresent();

@@ -10,6 +10,7 @@ import com.movies.store.exceptions.InvalidTokenException;
 import com.movies.store.exceptions.NullTokenException;
 import com.movies.store.models.User;
 import com.movies.store.services.UserService;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,7 @@ public class TokenController {
 
     private final JwtProperties jwtProperties;
 
+    @ApiResponse(description = "If the authentication token is expired it refreshes it", responseCode = "200")
     @PostMapping(path = "/refresh")
     public ResponseEntity refreshToken(@RequestHeader(value = "Refresh-Token") String refreshToken) {
         if (refreshToken != null && !refreshToken.trim().isEmpty()) {

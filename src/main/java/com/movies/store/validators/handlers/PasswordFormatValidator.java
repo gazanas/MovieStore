@@ -8,6 +8,14 @@ import java.util.regex.Pattern;
 
 public class PasswordFormatValidator implements ConstraintValidator<PasswordFormat, String> {
 
+    /**
+     * A valid password should contain at least five letters, three digits and two special characters.
+     * Defines regular expressions to check all three conditions mentioned above.
+     *
+     * @param password The passed password
+     * @param constraintValidatorContext
+     * @return The decision if the password is valid
+     */
     @Override
     public boolean isValid(String password, ConstraintValidatorContext constraintValidatorContext) {
         String specialCharacters = Pattern.quote("!@#$%^&*(){}|[]/?><.,");

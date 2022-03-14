@@ -1,6 +1,6 @@
 package com.movies.store.mappers;
 
-import com.movies.store.dtos.InformationOutDto;
+import com.movies.store.dtos.InformationDto;
 import com.movies.store.models.Information;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,5 +17,5 @@ public interface InformationMapper {
     @Mapping(source = "directors", target = "directors")
     @Mapping(source = "createdAt", target = "createdAt")
     @Mapping(source = "updatedAt", target = "updatedAt")
-    InformationOutDto informationToOutputDto(Information information);
+    InformationDto informationToOutputDto(Information information);
 }

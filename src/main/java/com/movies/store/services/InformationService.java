@@ -1,6 +1,6 @@
 package com.movies.store.services;
 
-import com.movies.store.dtos.InformationOutDto;
+import com.movies.store.dtos.InformationDto;
 import com.movies.store.exceptions.InformationNotFoundException;
 import com.movies.store.mappers.InformationMapper;
 import com.movies.store.models.Information;
@@ -23,9 +23,9 @@ public class InformationService {
      * If the movie is not found then it throws a Not Found exception
      *
      * @param movieId The id of the movie
-     * @return The dto that will be sent in the response body
+     * @return The information of the requested movie
      */
-    public InformationOutDto getMovieInformation(Integer movieId) {
+    public InformationDto getMovieInformation(Integer movieId) {
         Information information = informationRepository.findByMovieId(movieId).orElseThrow(() ->
                 new InformationNotFoundException("Could not find information about this movie!"));
 

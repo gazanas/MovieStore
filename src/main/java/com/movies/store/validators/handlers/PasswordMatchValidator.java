@@ -17,6 +17,14 @@ public class PasswordMatchValidator implements ConstraintValidator<PasswordMatch
         this.match = constraintAnnotation.match();
     }
 
+    /**
+     * Registering demands a confirmation password that should match the password.
+     * The validator checks if the two passwords match.
+     *
+     * @param o
+     * @param constraintValidatorContext
+     * @return
+     */
     @Override
     public boolean isValid(Object o, ConstraintValidatorContext constraintValidatorContext) {
         String field = (String) PropertyAccessorFactory.forBeanPropertyAccess(o).getPropertyValue(this.field);

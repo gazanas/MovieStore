@@ -1,6 +1,6 @@
 package com.movies.store.mappers;
 
-import com.movies.store.dtos.ActorOutDto;
+import com.movies.store.dtos.ActorDto;
 import com.movies.store.models.Actor;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,5 +14,5 @@ public interface ActorMapper {
     @Mapping(source = "lastName", target = "lastName")
     @Mapping(source = "createdAt", target = "createdAt")
     @Mapping(source = "updatedAt", target = "updatedAt")
-    ActorOutDto actorToOutputDto(Actor actor);
+    ActorDto actorToOutputDto(Actor actor);
 }

@@ -71,4 +71,15 @@ public class MovieService {
                 .stream().map(this.movieMapper::movieToOutputDto)
                 .filter((MovieDto movie) -> this.listAvailableMovies().contains(movie)).collect(Collectors.toList());
     }
+
+    /**
+     * Rent a movie by its id. The process will search the copies for availability
+     * and proceed accordingly
+     *
+     * @param id The movie to rent id
+     * @return The rented movie
+     */
+    public Movie rentMovie(Integer id) {
+        return this.copyService.rentCopy(id).getMovie();
+    }
 }

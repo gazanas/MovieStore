@@ -53,6 +53,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         return this.authenticationManager.authenticate(authenticationToken);
     }
 
+    /**
+     * When the authentication is unsuccessful send the correct response
+     *
+     * @param request
+     * @param response
+     * @param failed
+     * @throws IOException
+     */
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
         response.setStatus(HttpStatus.FORBIDDEN.value());

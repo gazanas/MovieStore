@@ -5,10 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface RentedCopyRepository extends JpaRepository<RentedCopy, Integer> {
 
     Optional<RentedCopy> findByCopyIdAndReturnedAtIsNull(@Param("copyId") Integer copyId);
+
+    List<RentedCopy> findByCopyMovieIdAndReturnedAtIsNull(@Param("movieId") Integer movieId);
 }

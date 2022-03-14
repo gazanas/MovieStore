@@ -1,6 +1,6 @@
 package com.movies.store.services;
 
-import com.movies.store.dtos.InformationOutDto;
+import com.movies.store.dtos.InformationDto;
 import com.movies.store.exceptions.InformationNotFoundException;
 import com.movies.store.mappers.InformationMapper;
 import com.movies.store.models.Information;
@@ -74,7 +74,7 @@ class InformationServiceTest {
                 .thenReturn(Optional.ofNullable(mockedMovies.get(0).getInformation()));
 
         // when
-        InformationOutDto information = informationService.getMovieInformation(movieId);
+        InformationDto information = informationService.getMovieInformation(movieId);
 
         // then
         verify(informationRepository).findByMovieId(movieId);
